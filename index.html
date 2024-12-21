@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random Fox Image Generator</title>
+    <link rel="manifest" href="manifest.json">
+    <style>
+    
+        /* General Page Styles */
+        body {
+            font-family: 'Arial', sans-serif;
+            text-align: center;
+            margin: 50px auto;
+            max-width: 600px;
+            background-color: #f8f9fa;
+            color: #333;
+        }
+
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 15px;
+            color: #343a40;
+        }
+
+        p {
+            font-size: 1.1rem;
+            margin-bottom: 25px;
+            color: #495057;
+        }
+
+        /* Button Styles */
+        button {
+            padding: 12px 20px;
+            font-size: 16px;
+            color: #fff;
+            background-color: #ff6f61;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        button:hover {
+            background-color: #e54e3d;
+            transform: scale(1.05);
+        }
+
+        /* Image Styles */
+        img {
+            max-width: 100%;
+            height: auto;
+            border: 4px solid #ddd;
+            border-radius: 12px;
+            margin-top: 25px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Footer Styles */
+        footer {
+            margin-top: 40px;
+            font-size: 0.9rem;
+            color: #6c757d;
+        }
+
+        footer a {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <h1>Random Fox Image Generator</h1>
+    <p>Click the button below to display a random fox image.</p>
+    <button id="fetchButton">Get Random Fox</button>
+    <div id="imageContainer">
+        <img id="foxImage" src="" alt="Click the button to load a fox image" hidden>
+    </div>
+
+    <footer>
+        Powered by <a href="https://randomfox.ca/" target="_blank" rel="noopener noreferrer">RandomFox API</a>
+    </footer>
+
+    <script>
+        // Select DOM elements
+        const fetchButton = document.getElementById("fetchButton");
+        const foxImage = document.getElementById("foxImage");
+
+        // Event listener for button click
+        fetchButton.addEventListener("click", displayRandomFox);
+
+        /**
+         * Fetch and display a random fox image from the RandomFox API.
+         */
+        function displayRandomFox() {
+            // API URL for random fox images
+            const apiUrl = 'https://randomfox.ca/floof/';
+
+            // Fetch the random fox image
+            fetch(apiUrl)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! Status: ${response.status}`);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    // Update the image source and make it visible
+                    foxImage.src = data.image;
+                    foxImage.alt = "A random fox image";
+                    foxImage.hidden = false;
+                })
+                .catch(error => {
+                    console.error("Error fetching the fox image:", error);
+                    alert("An error occurred while fetching the fox image. Please try again later.");
+                });
+        }
+    </script>
+    <script src="sw.js"></script>
+</body>
+</html>
